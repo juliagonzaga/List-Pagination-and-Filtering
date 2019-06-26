@@ -47,10 +47,6 @@ const showPage = (list,page) => {
    }
 };
 
-showPage(studentsList, 1);
-
-
-
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
@@ -71,15 +67,19 @@ const appendPageLinks = (list) => {
          a.className = 'active';
       }
       a.href = '#';
+      a.textContent = i + 1;
       ul.appendChild(li);
       li.appendChild(a);
-      a.text = i + 1;
-      a.addEventListener = ('click', () => {
-         
-      })
-
    }
+      
+      div.addEventListener = ('click', (e) => {
+         if (e.target.tagName == 'A'){
+            e.target.classList.remove('active');
+         }     
+      });
+   
 };
+showPage(studentsList, 1);
 appendPageLinks(studentsList);
 
 
