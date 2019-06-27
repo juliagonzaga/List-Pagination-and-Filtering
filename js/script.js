@@ -75,7 +75,6 @@ const appendPageLinks = (list) => {
    const a = document.querySelectorAll('.pagination ul li a')
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
-         e.preventDefault();
          for(let j = 0; j < a.length; j++){
             a[j].classList.remove('active');
             e.target.classList.add('active');
