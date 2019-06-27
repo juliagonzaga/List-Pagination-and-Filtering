@@ -52,11 +52,10 @@ const showPage = (list,page) => {
    functionality to the pagination buttons.
 ***/
 const appendPageLinks = (list) => {
+   const pages = Math.ceil(list.length/studentsPerPage);
    const mainDiv = document.querySelector('.page');
    const div = document.createElement('div');
    const ul = document.createElement('ul');
-   const a = document.querySelectorAll('.pagination ul li a');
-   const pages = Math.ceil(list.length/studentsPerPage);
    div.className = 'pagination';
    mainDiv.appendChild(div);
    div.appendChild(ul);
@@ -71,6 +70,7 @@ const appendPageLinks = (list) => {
       ul.appendChild(li);
       li.appendChild(anchor);
    }
+   const a = document.querySelectorAll('.pagination ul li a');
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
          for(let j = 0; j < a.length; j++){
@@ -82,7 +82,6 @@ const appendPageLinks = (list) => {
    }
    
 };
-
 showPage(studentsList, 1);
 appendPageLinks(studentsList);
 
@@ -90,3 +89,17 @@ appendPageLinks(studentsList);
 
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
 });
+
+const searchField = () => {
+   const h2 = document.querySelector('h2');
+   const searchDiv = document.createElement('div');
+   const button = document.createElement('button'); 
+   const input = document.createElement('input');
+   searchDiv.className = 'student-search';
+   input.setAttribute('placeholder','Search for students...');
+   button.textContent = 'Search';
+   searchDiv.appendChild(input);
+   searchDiv.appendChild(button);
+   h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
+}
+searchField();
