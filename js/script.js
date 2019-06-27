@@ -52,7 +52,6 @@ const showPage = (list,page) => {
    functionality to the pagination buttons.
 ***/
 const appendPageLinks = (list) => {
-   const pages = Math.ceil(list.length/studentsPerPage);
    const mainDiv = document.querySelector('.page');
    const div = document.createElement('div');
    const ul = document.createElement('ul');
@@ -60,23 +59,30 @@ const appendPageLinks = (list) => {
    mainDiv.appendChild(div);
    div.appendChild(ul);
 
+   const pages = Math.ceil(list.length/studentsPerPage);
    for(let i = 0; i < pages; i++ ){
       const li = document.createElement('li');
-      const a = document.createElement('a');
+      const anchor = document.createElement('a');
       if(i === 0){
-         a.className = 'active';
+         anchor.className = 'active';
       }
-      a.href = '#';
-      a.textContent = i + 1;
+      anchor.href = '#';
+      anchor.textContent = i + 1;
       ul.appendChild(li);
-      li.appendChild(a);
+      li.appendChild(anchor);
    }
-      
-      div.addEventListener = ('click', (e) => {
-         if (e.target.tagName == 'A'){
-            e.target.classList.remove('active');
-         }     
-      });
+
+   const a = document.querySelectorAll('.pagination ul li a')
+   for (let i = 0; i < a.length; i++){
+      a[i].addEventListener('click', (e) => {
+         e.preventDefault();
+         for(let j = 0; j < a.length; j++){
+            a[j].classList.remove('active');
+            e.target.classList.add('active');
+            showPage(studentsList, e.target.textContent);
+         }
+      })
+   }
    
 };
 showPage(studentsList, 1);
