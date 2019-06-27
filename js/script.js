@@ -55,11 +55,11 @@ const appendPageLinks = (list) => {
    const mainDiv = document.querySelector('.page');
    const div = document.createElement('div');
    const ul = document.createElement('ul');
+   const a = document.querySelectorAll('.pagination ul li a');
+   const pages = Math.ceil(list.length/studentsPerPage);
    div.className = 'pagination';
    mainDiv.appendChild(div);
    div.appendChild(ul);
-
-   const pages = Math.ceil(list.length/studentsPerPage);
    for(let i = 0; i < pages; i++ ){
       const li = document.createElement('li');
       const anchor = document.createElement('a');
@@ -71,8 +71,6 @@ const appendPageLinks = (list) => {
       ul.appendChild(li);
       li.appendChild(anchor);
    }
-
-   const a = document.querySelectorAll('.pagination ul li a')
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
          for(let j = 0; j < a.length; j++){
@@ -84,6 +82,7 @@ const appendPageLinks = (list) => {
    }
    
 };
+
 showPage(studentsList, 1);
 appendPageLinks(studentsList);
 
