@@ -6,35 +6,16 @@ FSJS project 2 - List Filter and Pagination
 // Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
 document.addEventListener('DOMContentLoaded', () => {
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function.
-***/
-var studentsList = document.querySelectorAll('.student-item');
-var studentsPerPage = 10;
 
+const studentsList = document.querySelectorAll('.student-item'); //list of all students in the array
+console.log(studentsList);
+const studentsPerPage = 10; //max number of student list per page
 
-
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
+/*
+   This function shows 10 student list per page and hides the remaining
+   @param1 list {studentsList}
+   @param2 page {studentsPerPage}
+*/
 const showPage = (list,page) => {
    const startIndex = (page * studentsPerPage) - studentsPerPage;
    const endIndex = page * studentsPerPage;
@@ -47,30 +28,30 @@ const showPage = (list,page) => {
    }
 };
 
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
+/*
+   This function creates and appends the elements needed to create page links
+   @param {studentsList}
+*/
 const appendPageLinks = (list) => {
    const pages = Math.ceil(list.length/studentsPerPage);
    const mainDiv = document.querySelector('.page');
-   const div = document.createElement('div');
+   const paginationDiv = document.createElement('div');
    const ul = document.createElement('ul');
-   div.className = 'pagination';
-   mainDiv.appendChild(div);
-   div.appendChild(ul);
+   paginationDiv.className = 'pagination';
+   mainDiv.appendChild(paginationDiv);
+   paginationDiv.appendChild(ul);
    for(let i = 0; i < pages; i++ ){
-      const li = document.createElement('li');
-      const anchor = document.createElement('a');
+      const paginationLI = document.createElement('li');
+      const aTag = document.createElement('a');
       if(i === 0){
-         anchor.className = 'active';
+         aTag.className = 'active';
       }
-      anchor.href = '#';
-      anchor.textContent = i + 1;
-      ul.appendChild(li);
-      li.appendChild(anchor);
+      aTag.href = '#';
+      aTag.textContent = i + 1;
+      ul.appendChild(paginationLI);
+      paginationLI.appendChild(aTag);
    }
-   const a = document.querySelectorAll('.pagination ul li a');
+   const a = document.querySelectorAll('.pagination ul paginationLI a');
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
          for(let j = 0; j < a.length; j++){
@@ -86,20 +67,33 @@ showPage(studentsList, 1);
 appendPageLinks(studentsList);
 
 
+const h2 = document.querySelector('h2');
+const searchDiv = document.createElement('div');
+const searchButton = document.createElement('button'); 
+const searchInput = document.createElement('input');
+searchDiv.className = 'student-search';
+searchInput.setAttribute('placeholder','Search for students...');
+searchButton.textContent = 'Search';
+searchDiv.appendChild(searchInput);
+searchDiv.appendChild(searchButton);
+h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+const userButton = document.querySelector('button');
+const userInput = document.querySelector('.student-search input');
+const userSearch = (input, names) => {
+   for (let i = 0; i < names.length; i++){
+      names[i].classList.remove('match');
+      if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value.toLowerCase())){
+         names[i].classList.add('match');    
+          }
+   }
+}
+userButton.addEventListener('click', (event) => {
+   event.preventDefault(); 
+   userSearch(userInput, studentsList);
 });
 
-const searchField = () => {
-   const h2 = document.querySelector('h2');
-   const searchDiv = document.createElement('div');
-   const button = document.createElement('button'); 
-   const input = document.createElement('input');
-   searchDiv.className = 'student-search';
-   input.setAttribute('placeholder','Search for students...');
-   button.textContent = 'Search';
-   searchDiv.appendChild(input);
-   searchDiv.appendChild(button);
-   h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
-}
-searchField();
+userInput.addEventListener('keyup', () => {
+   userSearch(userInput, studentsList);
+});
+});
