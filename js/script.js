@@ -8,28 +8,25 @@ FSJS project 2 - List Filter and Pagination
 document.addEventListener('DOMContentLoaded', () => {
 
 const studentsList = document.querySelectorAll('.student-item'); //list of all students in the array
-console.log(studentsList);
-const studentsPerPage = 10; //max number of student list per page
-
+const studentsPerPage = 10; //max number of students per page
 /*
-   This function shows 10 student list per page and hides the remaining
+   This function displays and hides students list accordingly
    @param1 list {studentsList}
-   @param2 page {studentsPerPage}
+   @param2 page {1}
 */
 const showPage = (list,page) => {
-   const startIndex = (page * studentsPerPage) - studentsPerPage;
-   const endIndex = page * studentsPerPage;
-   for (let i = 0 ; i < list.length; i++){
-      if(i >= startIndex && i < endIndex){
-         list[i].style.display = 'block';
+   const startIndex = (page * studentsPerPage) - studentsPerPage; // returns an integer that will be used as index of the first student to be displayed per page
+   const endIndex = page * studentsPerPage; // // returns an integer that will be used as index of the last student to be displayed per page
+   for (let i = 0 ; i < list.length; i++){ // loops on the studentsList array
+      if(i >= startIndex && i < endIndex){ // conditions to follow in displaying the list of students per page
+         list[i].style.display = 'block'; // displays the list that includes the condition
       } else {
-         list[i].style.display = 'none';
+         list[i].style.display = 'none'; // displays the list that excludes the condition
       }
    }
 };
-
 /*
-   This function creates and appends the elements needed to create page links
+   This function creates and appends the elements used for pagination
    @param {studentsList}
 */
 const appendPageLinks = (list) => {
@@ -63,9 +60,6 @@ const appendPageLinks = (list) => {
    }
    
 };
-showPage(studentsList, 1);
-appendPageLinks(studentsList);
-
 
 const h2 = document.querySelector('h2');
 const searchDiv = document.createElement('div');
@@ -80,12 +74,17 @@ h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
 
 const userButton = document.querySelector('button');
 const userInput = document.querySelector('.student-search input');
+
 const userSearch = (input, names) => {
    for (let i = 0; i < names.length; i++){
       names[i].classList.remove('match');
       if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value.toLowerCase())){
          names[i].classList.add('match');    
-          }
+      } else if (input.value.length === 0){
+         names[i].style.display ='';
+      } else {
+         names[i].style.display = 'none';
+      }
    }
 }
 userButton.addEventListener('click', (event) => {
@@ -96,4 +95,7 @@ userButton.addEventListener('click', (event) => {
 userInput.addEventListener('keyup', () => {
    userSearch(userInput, studentsList);
 });
+
+showPage(studentsList, 1);
+appendPageLinks(studentsList);
 });
