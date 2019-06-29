@@ -7,27 +7,27 @@ FSJS project 2 - List Filter and Pagination
 
 document.addEventListener('DOMContentLoaded', () => {
 
-const studentsList = document.querySelectorAll('.student-item'); //list of all students in the array
-const studentsPerPage = 10; //max number of students per page
+const listOfStudents = document.querySelectorAll('.student-item'); //list of all students in the array
+const studentsPerPage = 10;
 /*
-   This function displays and hides students list accordingly
-   @param1 list {studentsList}
-   @param2 page {1}
+   This function will display the max number of students per page and hides the remaining
+   @param1 list {array}
+   @param2 page {integer}
 */
 const showPage = (list,page) => {
-   const startIndex = (page * studentsPerPage) - studentsPerPage; // returns an integer that will be used as index of the first student to be displayed per page
-   const endIndex = page * studentsPerPage; // // returns an integer that will be used as index of the last student to be displayed per page
-   for (let i = 0 ; i < list.length; i++){ // loops on the studentsList array
-      if(i >= startIndex && i < endIndex){ // conditions to follow in displaying the list of students per page
-         list[i].style.display = 'block'; // displays the list that includes the condition
+   const startIndex = (page * studentsPerPage) - studentsPerPage;
+   const endIndex = page * studentsPerPage;  
+   for (let i = 0 ; i < list.length; i++){ 
+      if(i >= startIndex && i < endIndex){
+         list[i].style.display = 'block';
       } else {
-         list[i].style.display = 'none'; // displays the list that excludes the condition
+         list[i].style.display = 'none';
       }
    }
 };
 /*
    This function creates and appends the elements used for pagination
-   @param {studentsList}
+   @param {array}
 */
 const appendPageLinks = (list) => {
    const pages = Math.ceil(list.length/studentsPerPage);
@@ -37,6 +37,7 @@ const appendPageLinks = (list) => {
    paginationDiv.className = 'pagination';
    mainDiv.appendChild(paginationDiv);
    paginationDiv.appendChild(ul);
+   
    for(let i = 0; i < pages; i++ ){
       const paginationLI = document.createElement('li');
       const aTag = document.createElement('a');
@@ -54,11 +55,10 @@ const appendPageLinks = (list) => {
          for(let j = 0; j < a.length; j++){
             a[j].classList.remove('active');
             e.target.classList.add('active');
-            showPage(studentsList, e.target.textContent);
+            showPage(listOfStudents, e.target.textContent);
          }
       })
    }
-   
 };
 
 const h2 = document.querySelector('h2');
@@ -89,13 +89,13 @@ const userSearch = (input, names) => {
 }
 userButton.addEventListener('click', (event) => {
    event.preventDefault(); 
-   userSearch(userInput, studentsList);
+   userSearch(userInput, listOfStudents);
 });
 
 userInput.addEventListener('keyup', () => {
-   userSearch(userInput, studentsList);
+   userSearch(userInput, listOfStudents);
 });
 
-showPage(studentsList, 1);
-appendPageLinks(studentsList);
+showPage(listOfStudents, 1);
+appendPageLinks(listOfStudents);
 });
