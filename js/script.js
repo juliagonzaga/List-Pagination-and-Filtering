@@ -61,16 +61,20 @@ const appendPageLinks = (list) => {
    }
 };
 
-const h2 = document.querySelector('h2');
-const searchDiv = document.createElement('div');
-const searchButton = document.createElement('button'); 
-const searchInput = document.createElement('input');
-searchDiv.className = 'student-search';
-searchInput.setAttribute('placeholder','Search for students...');
-searchButton.textContent = 'Search';
-searchDiv.appendChild(searchInput);
-searchDiv.appendChild(searchButton);
-h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
+const studentSearch = () => {
+   const h2 = document.querySelector('h2');
+   const searchDiv = document.createElement('div');
+   const searchButton = document.createElement('button'); 
+   const searchInput = document.createElement('input');
+   searchDiv.className = 'student-search';
+   searchInput.setAttribute('placeholder','Search for students...');
+   searchButton.textContent = 'Search';
+   searchDiv.appendChild(searchInput);
+   searchDiv.appendChild(searchButton);
+   h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
+};
+
+studentSearch();
 
 const userButton = document.querySelector('button');
 const userInput = document.querySelector('.student-search input');
@@ -90,6 +94,7 @@ const userSearch = (input, names) => {
 userButton.addEventListener('click', (event) => {
    event.preventDefault(); 
    userSearch(userInput, listOfStudents);
+   
 });
 
 userInput.addEventListener('keyup', () => {
