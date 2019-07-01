@@ -66,7 +66,7 @@ const appendPageLinks = (list) => {
 const studentSearch = () => {
    const h2 = document.querySelector('h2');
    const searchDiv = document.createElement('div');
-   const searchButton = document.createElement('button'); 
+   const searchButton = document.createElement('button');
    const searchInput = document.createElement('input');
    searchDiv.className = 'student-search';
    searchInput.setAttribute('placeholder','Search for students...');
@@ -74,37 +74,45 @@ const studentSearch = () => {
    searchDiv.appendChild(searchInput);
    searchDiv.appendChild(searchButton);
    h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
-};
-
-studentSearch();
-
-const userButton = document.querySelector('button');
-const userInput = document.querySelector('.student-search input');
-
-const userSearch = (input, names) => {
-   for (let i = 0; i < names.length; i++){
-      names[i].classList.remove('match');
-      if (input.value.length !== 0 && names[i].textContent.toLowerCase().includes(input.value.toLowerCase())){
-         names[i].classList.add('match');    
-      } else if (input.value.length === 0){
-         names[i].style.display ='';
-      } else {
-         names[i].style.display = 'none';
-      }
-   }
-}
-userButton.addEventListener('click', (e) => { 
-   e.preventDefault();
-   userSearch(userInput, listOfStudents);
-});
-
-userInput.addEventListener('keyup', () => {
-   userSearch(userInput, listOfStudents);
-});
-
-
-showPage(listOfStudents, 1);
-appendPageLinks(listOfStudents);
-
-
-});
+  
+   searchButton.addEventListener('click', (e) => {
+       e.preventDefault();
+       const userInput = document.querySelector('.student-search input');
+       const searchResults =  userSearch(userInput.value, listOfStudents);
+       showPage(searchResults, 1);
+       appendPageLinks(searchResults);
+   });
+  
+   searchInput.addEventListener('keyup', (e) => {
+       const searchResults =  userSearch(e.target.value, listOfStudents);
+       console.log(searchResults);
+       showPage(searchResults, 1);
+       appendPageLinks(searchResults);
+   });
+ };
+  
+  
+  
+ const userSearch = (input, names) => {
+     let tempArray = [];
+    if (!input) {
+        return names;
+    } else {
+        for (let i = 0; i < names.length; i++) {
+            names[i].style.display = 'none';
+            let h3Value = names[i].querySelector('h3').textContent.toLowerCase();
+            if (h3Value.includes(input.toLowerCase())){
+                tempArray.push(names[i]);
+            }
+        }
+        return tempArray;
+    }
+ };
+  
+  
+ studentSearch();
+ showPage(listOfStudents, 1);
+ appendPageLinks(listOfStudents);
+  
+  
+ });
