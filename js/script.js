@@ -49,7 +49,7 @@ const appendPageLinks = (list) => {
       ul.appendChild(paginationLI);
       paginationLI.appendChild(aTag);
    }
-   const a = document.querySelectorAll('.pagination ul paginationLI a');
+   const a = document.querySelectorAll('.pagination ul li a');
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
          for(let j = 0; j < a.length; j++){
@@ -60,6 +60,8 @@ const appendPageLinks = (list) => {
       })
    }
 };
+
+
 
 const studentSearch = () => {
    const h2 = document.querySelector('h2');
@@ -91,16 +93,18 @@ const userSearch = (input, names) => {
       }
    }
 }
-userButton.addEventListener('click', (event) => {
-   event.preventDefault(); 
+userButton.addEventListener('click', (e) => { 
+   e.preventDefault();
    userSearch(userInput, listOfStudents);
-   
 });
 
 userInput.addEventListener('keyup', () => {
    userSearch(userInput, listOfStudents);
 });
 
+
 showPage(listOfStudents, 1);
 appendPageLinks(listOfStudents);
+
+
 });
