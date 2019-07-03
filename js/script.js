@@ -92,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
      searchInput.addEventListener('keyup', (e) => {
          const searchResults =  userSearch(e.target.value, listOfStudents);
-         console.log(searchResults);
          showPage(searchResults, 1);
          appendPageLinks(searchResults);
      });
@@ -110,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
               let h3Value = names[i].querySelector('h3').textContent.toLowerCase();
               if (h3Value.includes(input.toLowerCase())){
                   tempArray.push(names[i]);
-              }
+              }   
           }
           return tempArray;
       }
