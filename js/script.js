@@ -1,124 +1,106 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
- 
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
- 
-document.addEventListener('DOMContentLoaded', () => {
- 
-   const listOfStudents = document.querySelectorAll('.student-item'); //list of all students in the array
-   const studentsPerPage = 10;
-   /*
-      This function will display the max number of students per page and hides the remaining
-      @param1 list {array}
-      @param2 page {integer}
-   */
-   const showPage = (list,page) => {
-      const startIndex = (page * studentsPerPage) - studentsPerPage;
-      const endIndex = page * studentsPerPage;
-      for (let i = 0 ; i < list.length; i++){
+const listOfStudents = document.querySelectorAll('.student-item');
+const studentsPerPage = 10;
+
+/*
+    This function hides all the students except for the ten that will be displayed on a given page
+    @param1 list {array}
+    @param2 page {integer}
+*/
+const showPage = (list,page) => {
+    const startIndex = (page * studentsPerPage) - studentsPerPage;
+    const endIndex = page * studentsPerPage;
     
-         if(i >= startIndex && i < endIndex){
+    for (let i = 0 ; i < list.length; i++){
+        if(i >= startIndex && i < endIndex){
             list[i].style.display = 'block';
-         } else {
+        } else {
             list[i].style.display = 'none';
-         }
-      }
-   };
-   /*
-      This function creates and appends the elements used for pagination
-      @param {array}
-   */
-   const appendPageLinks = (list) => {
-      const pages = Math.ceil(list.length/studentsPerPage);
-      const mainDiv = document.querySelector('.page');
-      const paginations = document.querySelectorAll('.pagination');
-      
-      for(let i = 0; i < paginations.length; i++) {
-          paginations[i].parentNode.removeChild(paginations[i]);
-      }
-      
-      const paginationDiv = document.createElement('div');
-      const ul = document.createElement('ul');
-      paginationDiv.className = 'pagination';
-      mainDiv.appendChild(paginationDiv);
-      paginationDiv.appendChild(ul);
-    
-      for(let i = 0; i < pages; i++ ){
-         const paginationLI = document.createElement('li');
-         const aTag = document.createElement('a');
-         if(i === 0){
-            aTag.className = 'active';
-         }
-         aTag.href = '#';
-         aTag.textContent = i + 1;
-         ul.appendChild(paginationLI);
-         paginationLI.appendChild(aTag);
-      }
-      const a = document.querySelectorAll('.pagination ul li a');
-      for (let i = 0; i < a.length; i++){
-         a[i].addEventListener('click', (e) => {
-            for(let j = 0; j < a.length; j++){
-               a[j].classList.remove('active');
-               e.target.classList.add('active');
-               showPage(listOfStudents, e.target.textContent);
-            }
-         })
-      }
-   };
-    
-    
-    
-   const studentSearch = () => {
-     const h2 = document.querySelector('h2');
-     const searchDiv = document.createElement('div');
-     const searchButton = document.createElement('button');
-     const searchInput = document.createElement('input');
-     searchDiv.className = 'student-search';
-     searchInput.setAttribute('placeholder','Search for students...');
-     searchButton.textContent = 'Search';
-     searchDiv.appendChild(searchInput);
-     searchDiv.appendChild(searchButton);
-     h2.parentNode.insertBefore(searchDiv, h2.nextElementSibling);
-    
-     searchButton.addEventListener('click', (e) => {
-         e.preventDefault();
-         const userInput = document.querySelector('.student-search input');
-         const searchResults =  userSearch(userInput.value, listOfStudents);
-         showPage(searchResults, 1);
-         appendPageLinks(searchResults);
-     });
-    
-     searchInput.addEventListener('keyup', (e) => {
-         const searchResults =  userSearch(e.target.value, listOfStudents);
-         showPage(searchResults, 1);
-         appendPageLinks(searchResults);
-     });
-   };
-    
-    
-    
-   const userSearch = (input, names) => {
-       let tempArray = [];
-      if (!input) {
-          return names;
-      } else {
-          for (let i = 0; i < names.length; i++) {
-              names[i].style.display = 'none';
-              let h3Value = names[i].querySelector('h3').textContent.toLowerCase();
-              if (h3Value.includes(input.toLowerCase())){
-                  tempArray.push(names[i]);
-              }   
-          }
-          return tempArray;
-      }
-   };
-    
-    
-   studentSearch();
-   showPage(listOfStudents, 1);
-   appendPageLinks(listOfStudents);
-    
-    
-   });
+        }
+    }
+};
+
+/*
+    This function creates and appends functioning pagination links
+    @param {array}
+*/
+const appendPageLinks = (list) => {
+    const mainDiv = document.querySelector('.page');
+    const pageDiv = document.createElement('div');
+    const pageUL = document.createElement('ul');
+    pageDiv.className = 'pagination';
+    mainDiv.appendChild(pageDiv);
+    pageDiv.appendChild(pageUL);
+
+    const pages = Math.ceil(list.length/studentsPerPage); // no. of pages needed to paginate
+    for ( let i = 1; i <= pages; i++){
+        const pageLI = document.createElement('li'); //creates 'li' elements needed to contain the ten students per given page 
+        const pageA = document.createElement('a'); // creates 'a' elements used for pagination links
+        pageA.href = '#';
+        pageA.textContent = i; //sets the numbering of each page
+        if (i === 1){
+            pageA.className = 'active'; //the class name 'active' sets the css design of the 'a' element when it's hovered and clicked
+        }
+        pageUL.appendChild(pageLI);
+        pageLI.appendChild(pageA);  
+    };
+
+    const a = document.querySelectorAll('.pagination ul li a');
+    //this loop is used in adding event listener to each 'a' element
+    for (let i = 0; i < a.length; i++){
+       a[i].addEventListener('click', (e) => {
+          for(let j = 0; j < a.length; j++){ // this loop removes 'active' class name in all 'a' element
+             a[j].classList.remove('active');
+          };
+          e.target.classList.add('active'); // adds the 'active' class name to the clicked element
+          showPage(listOfStudents, e.target.textContent); //calling this function will show only the list of students in the page that is currently clicked
+       });
+    };
+
+};
+
+const studentSearch = () => {
+    const headerDiv = document.querySelector('.page-header');
+    let searchDiv = document.createElement('div');
+    searchDiv.className = 'student-search';
+    const searchField = document.createElement('input');
+    searchField.setAttribute('placeholder','Search for students...');
+    const searchButton = document.createElement('button');
+    searchButton.textContent = 'Search';
+    headerDiv.appendChild(searchDiv);
+    searchDiv.appendChild(searchField);
+    searchDiv.appendChild(searchButton);
+
+    searchButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const userInput = searchField.value;
+        const searchResults = userSearch(userInput, listOfStudents);
+        showPage(searchResults, 1);
+        appendPageLinks(searchResults);
+    });
+
+    searchField.addEventListener('keyup', (e) => {
+        const searchResults =  userSearch(e.target.value, listOfStudents);
+        showPage(searchResults, 1);
+        appendPageLinks(searchResults);
+    });
+};
+
+const userSearch = (input, list) => {
+    let tempArray = [];
+    if (!input) {
+       return list;
+    } else {
+       for (let i = 0; i < list.length; i++) {
+           list[i].style.display = 'none';
+           let studentName = list[i].querySelector('h3').textContent.toLowerCase();
+           if (studentName.includes(input.toLowerCase())){
+               tempArray.push(list[i]);
+           };
+       };
+       return tempArray;
+    };
+};
+
+studentSearch();
+showPage(listOfStudents, 1);
+appendPageLinks(listOfStudents);
