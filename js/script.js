@@ -3,8 +3,8 @@ const studentsPerPage = 10;
 
 /*
     This function hides all the students except for the ten(maximum) that will be displayed on a given page.
-    @param1 list {array}
-    @param2 page {integer}
+    @param1 {array}
+    @param2 {integer}
 */
 const showPage = (list,page) => {
    const startIndex = (page * studentsPerPage) - studentsPerPage;
@@ -94,14 +94,22 @@ const studentSearch = () => {
    });
 };
 
+/*
+   This function returns an array of the search results.
+   @param1 {string}
+   @param2 {array}
+   Calling this function will display the results of the user search.
+*/
 const userSearch = (input, list) => {
-   let tempArray = [];
-   if (!input) {
+   let tempArray = []; //This empty array will contain the search results.
+   if (!input) { // This returns the paginated list of students when the input field is emptied.
       return list;
    } else {
-      for (let i = 0; i < list.length; i++) {
+      for (let i = 0; i < list.length; i++) { // This loops through all the student list.
          list[i].style.display = 'none';
+         //Calls the h3 element which contains the names of the students which is inside each list.
          let studentName = list[i].querySelector('h3').textContent.toLowerCase();
+         //If student's name includes a value of the user's input, the list will be pushed to the empty array.
          if (studentName.includes(input.toLowerCase())){
                tempArray.push(list[i]);
          }
