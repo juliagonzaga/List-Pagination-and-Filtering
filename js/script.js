@@ -26,14 +26,21 @@ const showPage = (list,page) => {
 const appendPageLinks = (list) => {
    const mainDiv = document.querySelector('.page');
    const old = document.querySelector('.pagination');
-      if (old != null) { // Removes the old pagination links so it will not build up everytime the user inputs something on the search field.
-         mainDiv.removeChild(old);
-      };
+   // Removes the old pagination links so it will not build up everytime the user inputs something on the search field.
+   if (old != null) {
+      mainDiv.removeChild(old);
+   };
    const pageDiv = document.createElement('div');
    const pageUL = document.createElement('ul');
    pageDiv.className = 'pagination';
    mainDiv.appendChild(pageDiv);
    pageDiv.appendChild(pageUL);
+   // If the student names does not include a value in the user input, a text will be displayed in the HTML that says 'No Results'.
+   if (list.length === 0) { 
+      const span = document.createElement('span');
+      span.textContent = 'No Results';
+      pageDiv.appendChild(span);
+   }
 
    const pages = Math.ceil(list.length/studentsPerPage); // Returns the no. of pages needed to paginate.
    for ( let i = 1; i <= pages; i++){ // Loops over the no. of pages needed to paginate.
