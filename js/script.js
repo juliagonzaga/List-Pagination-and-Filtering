@@ -55,6 +55,7 @@ const appendPageLinks = (list) => {
       pageLI.appendChild(pageA);  
    };
 
+   const a = document.querySelectorAll('.pagination ul li a');
    //This loop is used in adding event listener to each 'a' element.
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
