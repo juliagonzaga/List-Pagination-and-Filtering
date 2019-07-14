@@ -62,7 +62,7 @@ const appendPageLinks = (list) => {
             a[j].classList.remove('active');
          };
          e.target.classList.add('active'); // Adds the 'active' class name only to the clicked page link.
-         showPage(list, e.target.textContent); //Calling this function will show the students list of the clicked page.
+         showPage(list, e.target.textContent); //Calling this function will show the student list of the clicked page.
       });
    };
 };
