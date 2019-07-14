@@ -55,7 +55,6 @@ const appendPageLinks = (list) => {
       pageLI.appendChild(pageA);  
    };
 
-   const a = document.querySelectorAll('.pagination ul li a');
    //This loop is used in adding event listener to each 'a' element.
    for (let i = 0; i < a.length; i++){
       a[i].addEventListener('click', (e) => {
@@ -63,7 +62,7 @@ const appendPageLinks = (list) => {
             a[j].classList.remove('active');
          };
          e.target.classList.add('active'); // Adds the 'active' class name only to the clicked page link.
-         showPage(listOfStudents, e.target.textContent); //Calling this function will show the students list of the clicked page.
+         showPage(list, e.target.textContent); //Calling this function will show the students list of the clicked page.
       });
    };
 };
