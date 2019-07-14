@@ -6,5 +6,5 @@ and the no. of pages will vary according to the total number of students in the 
 1. Pagination
 2. Live search
 
-# Demo here : 
+# Demo
 https://vibrant-austin-c3c664.netlify.com/
